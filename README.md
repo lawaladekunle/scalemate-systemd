@@ -7,7 +7,7 @@ To deploy the service you need to do the following.
 
 You would need to deploy scalemate following the guide from the scalemate repo.
 
-```https://github.com/eladnava/scalemate```
+https://github.com/eladnava/scalemate
 
 To setup the scalemate systemd service. Follow the steps below.
 

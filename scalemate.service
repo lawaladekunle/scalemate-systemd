@@ -1,0 +1,9 @@
+[Unit]
+Description: Scalemate service, publish custom logs to Cloudwatch.
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/bin/scalemate
+
+[Install]
+WantedBy=multi-user.target

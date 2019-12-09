@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# This script start scalemate which is used to record memory metrics into CloudWatch.
+
+#Define dates
+T_DATE=$(date '+%Y-%m-%d %H:%M:%S')
+LOG_DATE=$(date '+%Y%m%d')
+
+#Create the log file, check if the file exists before doing so.
+LOG_FILENAME="/var/log/scalemate/scalemate-$LOG_DATE.log"
+
+if [ ! -f "${LOG_FILENAME}" ];
+then
+	touch "/var/log/scalemate/scalemate-$LOG_DATE.log"
+fi
+
+
+#Use logger to write logs
+exec 1> >(logger -f ${LOG_FILENAME} -s -t $(basename $0)) 2>&1
+
+
+# Configure a named pipe and pass info to journalctl.
+info=/tmp/scalemate-systemd-cat-pipe-info
+mkfifo "$info"
+trap "exec 3>&-; rm $info" EXIT
+systemd-cat -p info < "$info" &
+exec 3>"$info"
+
+
+#Run Scalemate
+/home/ec2-user/.nvm/versions/node/v8.10.0/bin/scalemate -c /home/ec2-user/scalematecfg/config.js
+#2>&1 | tee -a ${LOG_FILENAME} &
+
+
+#Verify status of scalemate and return an exit status
+
+if [[ "$?" -eq 0 ]];
+then
+
+	echo "Started Scalemate -- ${T_DATE}" | tee -a ${LOG_FILENAME}
+
+	#Set exit status to 0
+
+	exit 0
+else
+	echo "Failed to Start Scalemate -- ${T_DATE}" | tee -a ${LOG_FILENAME}
+
+	#Set exit status to 1
+
+	exit 1
+fi

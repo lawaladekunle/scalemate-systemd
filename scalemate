@@ -29,7 +29,6 @@ exec 3>"$info"
 
 #Run Scalemate
 /home/ec2-user/.nvm/versions/node/v8.10.0/bin/scalemate -c /home/ec2-user/scalematecfg/config.js
-#2>&1 | tee -a ${LOG_FILENAME} &
 
 
 #Verify status of scalemate and return an exit status

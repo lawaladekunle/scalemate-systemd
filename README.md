@@ -5,7 +5,35 @@ This repo contains file to create a systemd service for scalemate. Scalemate all
 
 To deploy the service you need to do the following.
 
-You would need to deploy scalemate following the guide from the scalemate repo.```https://github.com/eladnava/scalemate```
+You would need to deploy scalemate following the guide from the scalemate repo.
+
+```https://github.com/eladnava/scalemate```
+
+To setup the scalemate systemd service. Follow the steps below.
+
+```
+sudo cp scalemate /usr/bin/
+
+sudo chmod +x /usr/bin/scalemate
+
+sudo cp scalemate.service /lib/systemd/system/scalemate.service
+
+sudo cp /lib/systemd/system/scalemate.service /etc/systemd/system/scalemate.service
+
+sudo chmod 644 /etc/systemd/system/scalemate.service
+
+sudo systemctl enable scalemate.service
+
+sudo systemctl start scalemate.service
+
+sudo systemctl status scalemate.service
+
+```
+
+If you are having issues starting the service troubleshoot with journalctl using the command below.
+
+
+``` sudo journalctl -xe ```
 
 
 

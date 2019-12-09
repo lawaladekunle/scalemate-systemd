@@ -1,5 +1,5 @@
 [Unit]
-Description: Scalemate service, publish custom logs to Cloudwatch.
+Description=Scalemate service, publish custom logs to Cloudwatch.
 
 [Service]
 Type=simple
